@@ -25,9 +25,11 @@ pipeline {
 
                     # Install buildx plugin for docker
                     echo "Downloading docker buildx..."
-                    mkdir -p ~/.docker/cli-plugins
-                    curl -SL "https://github.com/docker/buildx/releases/latest/download/buildx-v0.12.1.linux-amd64" -o ~/.docker/cli-plugins/docker-buildx
-                    chmod +x ~/.docker/cli-plugins/docker-buildx
+                    export DOCKER_CLI_PLUGINS=~/.docker/cli-plugins
+                    mkdir -p $DOCKER_CLI_PLUGINS
+                    # The buildx releases are structured as buildx-v$VERSION.linux-$ARCH
+                    curl -SL "https://github.com/docker/buildx/releases/download/v0.12.1/buildx-v0.12.1.linux-$(uname -m | sed 's/x86_64/amd64/')" -o $DOCKER_CLI_PLUGINS/docker-buildx
+                    chmod +x $DOCKER_CLI_PLUGINS/docker-buildx
                     docker buildx version
                 '''
             }
