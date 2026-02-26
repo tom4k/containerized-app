@@ -14,14 +14,21 @@ pipeline {
             }
         }
 
-        stage('Setup Docker Compose') {
+        stage('Setup Docker Tools') {
             steps {
-                // Download docker-compose binary directly into the workspace
                 sh '''
+                    # Install docker-compose
                     echo "Downloading docker-compose..."
                     curl -SL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$(uname -m)" -o docker-compose
                     chmod +x docker-compose
                     ./docker-compose version
+
+                    # Install buildx plugin for docker
+                    echo "Downloading docker buildx..."
+                    mkdir -p ~/.docker/cli-plugins
+                    curl -SL "https://github.com/docker/buildx/releases/latest/download/buildx-v0.12.1.linux-amd64" -o ~/.docker/cli-plugins/docker-buildx
+                    chmod +x ~/.docker/cli-plugins/docker-buildx
+                    docker buildx version
                 '''
             }
         }
