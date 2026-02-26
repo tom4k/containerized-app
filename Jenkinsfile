@@ -3,14 +3,26 @@ pipeline {
     
     // Define environment variables if needed
     environment {
-        // Use standard docker compose cli instead of standalone binary 
-        DOCKER_COMPOSE_CMD = 'docker-compose'
+        // Use a locally downloaded docker-compose binary
+        DOCKER_COMPOSE_CMD = './docker-compose'
     }
 
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Setup Docker Compose') {
+            steps {
+                // Download docker-compose binary directly into the workspace
+                sh '''
+                    echo "Downloading docker-compose..."
+                    curl -SL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$(uname -m)" -o docker-compose
+                    chmod +x docker-compose
+                    ./docker-compose version
+                '''
             }
         }
 
