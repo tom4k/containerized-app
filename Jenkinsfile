@@ -4,7 +4,7 @@ pipeline {
     // Define environment variables if needed
     environment {
         // Use standard docker compose cli instead of standalone binary 
-        DOCKER_COMPOSE_CMD = 'docker compose'
+        DOCKER_COMPOSE_CMD = 'docker-compose'
     }
 
     stages {
