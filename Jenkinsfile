@@ -30,7 +30,7 @@ pipeline {
                     # The buildx releases are structured as buildx-v$VERSION.linux-$ARCH
                     curl -SL "https://github.com/docker/buildx/releases/download/v0.12.1/buildx-v0.12.1.linux-$(uname -m | sed 's/x86_64/amd64/')" -o $DOCKER_CLI_PLUGINS/docker-buildx
                     chmod +x $DOCKER_CLI_PLUGINS/docker-buildx
-                    docker buildx version
+                    
                 '''
             }
         }
